@@ -20,6 +20,12 @@ var settings = {
         host: "192.168.0.21",
         port: 3000,
         path: "/resolve"
+    },
+    {
+        name: "38ый",
+        host: "192.168.0.38",
+        port: 3000,
+        path: "/resolve"
     }
     ]
 }

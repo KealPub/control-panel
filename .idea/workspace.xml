@@ -26,7 +26,7 @@
       <file leaf-file-name="socketResolve.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/socketResolve.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="9" selection-start="2088" selection-end="2088" vertical-scroll-proportion="1.1212121" vertical-offset="660" max-vertical-offset="1425">
+            <state line="25" column="27" selection-start="533" selection-end="533" vertical-scroll-proportion="0.3030303" vertical-offset="225" max-vertical-offset="1515">
               <folding />
             </state>
           </provider>
@@ -130,8 +130,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1928" />
-    <option name="y" value="6" />
+    <option name="x" value="-1920" />
+    <option name="y" value="-37" />
     <option name="width" value="1920" />
     <option name="height" value="992" />
   </component>
@@ -242,6 +242,23 @@
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="sslv3">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="7ed80084-aebe-4c17-9326-6daff4f71859" name="Default" comment="" />
@@ -251,8 +268,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="6" width="1920" height="992" extended-state="6" />
-    <editor active="true" />
+    <frame x="-1920" y="-37" width="1920" height="992" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Regex Tester" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -363,7 +380,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/socketResolve.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="9" selection-start="2088" selection-end="2088" vertical-scroll-proportion="1.1212121" vertical-offset="660" max-vertical-offset="1425">
+        <state line="25" column="27" selection-start="533" selection-end="533" vertical-scroll-proportion="0.3030303" vertical-offset="225" max-vertical-offset="1515">
           <folding />
         </state>
       </provider>
