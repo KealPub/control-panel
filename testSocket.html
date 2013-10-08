@@ -1,0 +1,13 @@
+<html>
+<head>
+	<title>Test</title>
+	<script src="http://localhost:5000/socket.io/socket.io.js"></script>
+	<script>
+		var socket = io.connect('http://localhost:5000/check_queue');
+		socket.emit("check_queue_status",{test: "test"});
+	</script>
+</head>
+<body>
+
+</body>
+</html>
