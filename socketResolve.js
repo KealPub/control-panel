@@ -6,6 +6,8 @@
 
 var io = require('socket.io');
 var sclient = require('socket.io-client');
+var url = require("url");
+var http = require("http");
 
 var settings = {
     servers: [
@@ -13,19 +15,22 @@ var settings = {
         name: "5ый",
         host: "192.168.0.5",
         port: 3000,
-        path: "/resolve"
+        path: "/resolve",
+        status: true
      },
     {
         name: "21ый",
         host: "192.168.0.21",
         port: 3000,
-        path: "/resolve"
+        path: "/resolve",
+        status: true
     },
     {
-        name: "38ый",
+        name: "38ой",
         host: "192.168.0.38",
         port: 3000,
-        path: "/resolve"
+        path: "/resolve",
+        status: true
     }
     ]
 }
@@ -59,10 +64,100 @@ var connect = function(){
 
 }
 
+var resolveUrl = function(req, res){
+    var pathname = url.parse(req.url).path;
+    var options = {
+        hostname: "192.168.0.5",
+        port: "3000",
+        path: pathname,
+        method: req.method
+    }
 
-var server = io.listen(5000);
+    var body = "";
 
-server.of('/check_queue').on('connection', function(socket){
+    var send = http.request(options, function(response){
+        response.on("data", function(data){
+            res.write(data);
+        });
+        response.on("end", function(){
+            res.end();
+        });
+
+    });
+
+    send.on("error", function(err){
+        console.log(err);
+        res.end("Connect error");
+    });
+
+    send.end();
+
+}
+
+var checkStatusServer = function(){
+   var servers = settings.servers;
+   servers.forEach(function(item, key){
+       var req = http.request({
+           hostname: item.host,
+           port: item.port,
+           path: "/status",
+           method: "GET"
+       }, function(res){
+
+           var body = "";
+
+           res.on("data", function(data){
+                body += data;
+           });
+
+           res.on("end", function(){
+               if(/application\/json.*/.test(res.headers["content-type"])){
+                   var status = JSON.parse(body);
+                   settings.servers[key].status = checkStatus(status);
+               }else{
+                   settings.servers[key].status = false;
+               }
+
+           });
+
+
+       });
+       req.on("error", function(err){
+           settings.servers[key].status = false;
+           console.log(item.name+ " is error "+JSON.stringify(err));
+       });
+
+       req.end();
+   })
+}
+
+var checkStatus = function(status){
+    console.log(status);
+    if(status.memory > 99999999999){
+        return false;
+    }
+
+    return true;
+}
+
+var findActiveServer = function(servers){
+    for(num in servers){
+        var item = servers[num];
+        if(item.status){
+            return
+        }
+    }
+}
+
+
+var server = http.createServer(resolveUrl);
+
+var socket = io.listen(server);
+
+server.listen(5000);
+
+
+socket.of('/check_queue').on('connection', function(socket){
     console.log("connect")
     socket.on('check_queue_status', function(message){
         console.log(message);
@@ -87,6 +182,11 @@ setInterval(function(){
     }
 }, 1000);
 
+
+setInterval(checkStatusServer, 60 * 1000);
+
+
+checkStatusServer();
 connect();
 
 
