@@ -66,38 +66,17 @@ var connect = function(){
 
 var resolveUrl = function(req, res){
     var pathname = url.parse(req.url).path;
-    var server = findActiveServer(settings.servers);
-    if(!server){
-        console.log(err);
+    var servers = findActiveServer(settings.servers);
+    if(!servers){
         res.end("Connect error");
         return;
     }
 
-    var options = {
-        hostname: server.host,
-        port: server.port,
-        path: pathname,
-        method: req.method
-    }
+    sendServerData(servers, pathname, req.method, function(err, data){
+        if(err) res.end("Connect error")
+        else res.end(data);
+    })
 
-    var body = "";
-
-    var send = http.request(options, function(response){
-        response.on("data", function(data){
-            res.write(data);
-        });
-        response.on("end", function(){
-            res.end();
-        });
-
-    });
-
-    send.on("error", function(err){
-        console.log(err);
-        res.end("Connect error");
-    });
-
-    send.end();
 
 }
 
@@ -148,13 +127,48 @@ var checkStatus = function(status){
 }
 
 var findActiveServer = function(servers){
+    var activeServers = [];
     for(num in servers){
         var item = servers[num];
         if(item.status){
-            return item;
+            activeServers.push(item);
         }
     }
-    return false;
+    if(activeServers.length > 0) return activeServers;
+    else return false;
+}
+
+var sendServerData = function(servers, path, method, callback, num){
+    if(!num) num = 0;
+
+    var server = servers[num];
+
+    var options = {
+        hostname: server.host,
+        port: server.port,
+        path: path,
+        method: method
+    }
+
+    var body = "";
+
+    var send = http.request(options, function(response){
+        response.on("data", function(data){
+            body += data;
+        });
+        response.on("end", function(){
+            callback(null, body);
+        });
+
+    });
+
+    send.on("error", function(err){
+        console.log(server.name+" "+err);
+        if(!servers[num + 1]) return callback(err);
+        sendServerData(servers, path, method, callback,++num)
+    });
+
+    send.end();
 }
 
 
