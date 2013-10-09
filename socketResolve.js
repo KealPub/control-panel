@@ -66,9 +66,16 @@ var connect = function(){
 
 var resolveUrl = function(req, res){
     var pathname = url.parse(req.url).path;
+    var server = findActiveServer(settings.servers);
+    if(!server){
+        console.log(err);
+        res.end("Connect error");
+        return;
+    }
+
     var options = {
-        hostname: "192.168.0.5",
-        port: "3000",
+        hostname: server.host,
+        port: server.port,
         path: pathname,
         method: req.method
     }
@@ -144,9 +151,10 @@ var findActiveServer = function(servers){
     for(num in servers){
         var item = servers[num];
         if(item.status){
-            return
+            return item;
         }
     }
+    return false;
 }
 
 
