@@ -1,0 +1,30 @@
+{
+
+    "servers": {
+        "connect": [
+            {
+                "name": "Local",
+                "host": "192.168.0.5",
+                "port": 3000
+            },
+            {
+                "name": "Test Server",
+                "host": "192.168.0.21",
+                "port": 3000
+            },
+            {
+                "name": "Master Server",
+                "host": "192.168.0.38",
+                "port": 3000
+            }
+        ],
+        "socket": {
+            "console_path": "/console",
+            "rerouting_path": "/resolve"
+        },
+        "http": {
+            "status_path": "/status"
+        }
+    }
+
+}

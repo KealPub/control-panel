@@ -8,6 +8,7 @@ var io = require('socket.io');
 var sclient = require('socket.io-client');
 var url = require("url");
 var http = require("http");
+var connectM = require('connect');
 
 var settings = {
     servers: [
@@ -64,6 +65,9 @@ var connect = function(){
 
 }
 
+
+
+
 var resolveUrl = function(req, res){
     var pathname = url.parse(req.url).path;
     var servers = findActiveServer(settings.servers);
@@ -77,8 +81,17 @@ var resolveUrl = function(req, res){
         else res.end(data);
     })
 
-
 }
+
+var app = connectM()
+    .use(connectM.static(__dirname + '/control_panel'))
+    .use(connectM.directory(__dirname + '/control_panel/*'))
+    .use(connectM.bodyParser())
+    .use(function(req, res, next){
+        if(req.url == "/login") login(req,res);
+        else next();
+    })
+    .use(resolveUrl);
 
 var checkStatusServer = function(){
    var servers = settings.servers;
@@ -171,8 +184,22 @@ var sendServerData = function(servers, path, method, callback, num){
     send.end();
 }
 
+var login = function(req, res){
+    var userdata = req.body;
 
-var server = http.createServer(resolveUrl);
+    if(userdata.login == "admin" && userdata.password == "admin"){
+        res.end(JSON.stringify({
+            access_token: "testt",
+            user_id: "test"
+        }));
+    }else{
+        res.end(JSON.stringify({
+            error: "Не верный логин или пароль"
+        }));
+    }
+}
+
+var server = http.createServer(app);
 
 var socket = io.listen(server);
 
@@ -194,6 +221,11 @@ socket.of('/check_queue').on('connection', function(socket){
     });
 });
 
+socket.of("/monitoring").on('connection', function(socket){
+    console.log("A connect");
+    socket.emit("test", "test");
+});
+
 setInterval(function(){
     for(key in _wait){
         var item = _wait[key];
@@ -203,6 +235,8 @@ setInterval(function(){
         }
     }
 }, 1000);
+
+
 
 
 setInterval(checkStatusServer, 60 * 1000);
